@@ -11,26 +11,40 @@
             const canvas = document.getElementById('plane');
             const context = canvas.getContext('2d');
 
-            const xunit = 67;
-            const yunit = 69;
+            const subxunit = 20;
+            const subyunit = 18;
+            const xunit = 2*subxunit;
+            const yunit = 2*subyunit;
             const ch = canvas.height;
             const cw = canvas.width;
             
             context.beginPath();
-            context.strokeStyle = "#000000";
-            context.lineWidth = 10;
-            context.moveTo(0,Math.floor(ch/2));
-            context.lineTo(cw,Math.floor(ch/2));
-            context.stroke();
-            context.moveTo(Math.floor(cw/2),0);
-            context.lineTo(Math.floor(cw/2),ch);
-            context.stroke(); 
+            context.strokeStyle = "gray";
+            context.lineWidth = 0.25;
+            for(var i = Math.floor(ch/2)+subyunit; i <= ch; i+=yunit){
+                context.moveTo(0,i);
+                context.lineTo(cw,i);
+                context.stroke();
+            }
+            for(var i = Math.floor(ch/2)-subyunit; i >= 0; i -= yunit){
+                context.moveTo(0,i);
+                context.lineTo(cw,i);
+                context.stroke();
+            }
+            for(var i = Math.floor(cw/2)+subxunit; i <= cw; i+=xunit){
+                context.moveTo(i,0);
+                context.lineTo(i,ch);
+                context.stroke();
+            }
+            for(var i = Math.floor(cw/2)-subxunit; i >= 0; i-=xunit){
+                context.moveTo(i,0);
+                context.lineTo(i,ch);
+                context.stroke();
+            }
 
             context.beginPath();
-            context.strokeStyle = "#0A0A0A";
+            context.strokeStyle = "black";
             context.lineWidth = 2;
-            const yaxis = Math.floor(ch / yunit);
-            const xaxis = Math.floor(cw / xunit);
             for(var i = Math.floor(ch/2)+yunit; i <= ch; i+=yunit){
                 context.moveTo(0,i);
                 context.lineTo(cw,i);
@@ -50,12 +64,28 @@
                 context.moveTo(i,0);
                 context.lineTo(i,ch);
                 context.stroke();
-            }
+            }            
+
+            context.beginPath();
+            context.strokeStyle = "#000000";
+            context.lineWidth = 4;
+            context.moveTo(0,Math.floor(ch/2));
+            context.lineTo(cw,Math.floor(ch/2));
+            context.stroke();
+            context.moveTo(Math.floor(cw/2),0);
+            context.lineTo(Math.floor(cw/2),ch);
+            context.stroke(); 
+
+        }
+        function DrawGraph(xcoord, diff){
+
         }
     </script>
 </head>
 <body>
-    <canvas id="plane" width = "1000" height = "800"></canvas>
+    <center>
+    <canvas id="plane" width = "1200" height = "800"></canvas>
+    </center>
     <script>
         DrawAxis();
     </script>
