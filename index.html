@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function DrawAxis(){
+            const canvas = document.getElementById('plane');
+            const context = canvas.getContext('2d');
+
+            const xunit = 67;
+            const yunit = 69;
+            const ch = canvas.height;
+            const cw = canvas.width;
+            
+            context.beginPath();
+            context.strokeStyle = "#000000";
+            context.lineWidth = 10;
+            context.moveTo(0,Math.floor(ch/2));
+            context.lineTo(cw,Math.floor(ch/2));
+            context.stroke();
+            context.moveTo(Math.floor(cw/2),0);
+            context.lineTo(Math.floor(cw/2),ch);
+            context.stroke(); 
+
+            context.beginPath();
+            context.strokeStyle = "#0A0A0A";
+            context.lineWidth = 2;
+            const yaxis = Math.floor(ch / yunit);
+            const xaxis = Math.floor(cw / xunit);
+            for(var i = Math.floor(ch/2)+yunit; i <= ch; i+=yunit){
+                context.moveTo(0,i);
+                context.lineTo(cw,i);
+                context.stroke();
+            }
+            for(var i = Math.floor(ch/2)-yunit; i >= 0; i -= yunit){
+                context.moveTo(0,i);
+                context.lineTo(cw,i);
+                context.stroke();
+            }
+            for(var i = Math.floor(cw/2)+xunit; i <= cw; i+=xunit){
+                context.moveTo(i,0);
+                context.lineTo(i,ch);
+                context.stroke();
+            }
+            for(var i = Math.floor(cw/2)-xunit; i >= 0; i-=xunit){
+                context.moveTo(i,0);
+                context.lineTo(i,ch);
+                context.stroke();
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas id="plane" width = "1000" height = "800"></canvas>
+    <script>
+        DrawAxis();
+    </script>
+    
+</body>
+</html>
