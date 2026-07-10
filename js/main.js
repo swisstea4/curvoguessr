@@ -122,3 +122,26 @@ function Squared_y(t) {
 }
 DrawAxis();
 DrawGraph(0, 2*Math.PI,Squared_x, Squared_y);
+
+//Allow the user to draw
+
+    const DrawingPlane = document.getElementById("drawingplane");
+    const context = DrawingPlane.getContext('2d');
+    const cw = DrawingPlane.width;
+    const ch = DrawingPlane.height;
+    TransformCanvas(context,cw,ch);
+    const CurrentlyDrawing = false;
+    DrawingPlane.addEventListener('mousedown',(event) => {
+        context.beginPath();
+        CurrentlyDrawing=true;
+        context.moveTo(event.clientX, event.clientY);
+    });
+    DrawingPlane.addEventListener('mousemove', (event) => {
+        if (CurrentlyDrawing) {
+            context.lineTo(event.clientX, event.clientY);
+            context.stroke();
+        }
+    });
+    DrawingPlane.addEventListener('mouseup', (event) => {
+        CurrentlyDrawing = false;
+    });
