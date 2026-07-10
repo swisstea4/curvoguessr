@@ -1,4 +1,9 @@
-canvas {
-    display : block;
-    margin : auto;
+.canvas-setup {
+    position: relative;
+    place-items: center;
+}
+.canvas-setup canvas {
+    position: absolute;
+    display: block;
+    margin: auto;
 }

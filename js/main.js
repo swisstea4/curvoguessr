@@ -131,7 +131,7 @@ function DrawUser() {
     const cw = DrawingPlane.width;
     const ch = DrawingPlane.height;
     TransformCanvas(context,cw,ch);
-    const CurrentlyDrawing = false;
+    let CurrentlyDrawing = false;
     DrawingPlane.addEventListener('mousedown',(event) => {
         context.beginPath();
         CurrentlyDrawing=true;
