@@ -125,6 +125,7 @@ DrawGraph(0, 2*Math.PI,Squared_x, Squared_y);
 
 //Allow the user to draw
 
+function DrawUser() {
     const DrawingPlane = document.getElementById("drawingplane");
     const context = DrawingPlane.getContext('2d');
     const cw = DrawingPlane.width;
@@ -145,3 +146,5 @@ DrawGraph(0, 2*Math.PI,Squared_x, Squared_y);
     DrawingPlane.addEventListener('mouseup', (event) => {
         CurrentlyDrawing = false;
     });
+}
+DrawUser();
