@@ -128,18 +128,19 @@ DrawGraph(0, 2*Math.PI,Squared_x, Squared_y);
 function DrawUser() {
     const DrawingPlane = document.getElementById("drawingplane");
     const context = DrawingPlane.getContext('2d');
+    const rect = DrawingPlane.getBoundingClientRect();
     const cw = DrawingPlane.width;
     const ch = DrawingPlane.height;
-    TransformCanvas(context,cw,ch);
     let CurrentlyDrawing = false;
     DrawingPlane.addEventListener('mousedown',(event) => {
         context.beginPath();
+        context.lineWidth = 2;
         CurrentlyDrawing=true;
-        context.moveTo(event.clientX, event.clientY);
+        context.moveTo(event.clientX-rect.left, event.clientY-rect.top);
     });
     DrawingPlane.addEventListener('mousemove', (event) => {
         if (CurrentlyDrawing) {
-            context.lineTo(event.clientX, event.clientY);
+            context.lineTo(event.clientX-rect.left, event.clientY-rect.top);
             context.stroke();
         }
     });
