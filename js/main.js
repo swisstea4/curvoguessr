@@ -136,14 +136,14 @@ function DrawGraph(t_1, t_2, Funct_x, Funct_y){
     DrawGraphSegment(t_1,t_2,0.001,Funct_x, Funct_y, context);
     context.stroke();
 }
-function Squared_x(t) {
-    return 5*Math.cos(t);
+function Function_x(t) {
+    return t;
 }
-function Squared_y(t) {
-    return 3*Math.sin(t);
+function Function_y(t) {
+    return t;
 }
 DrawAxis();
-// DrawGraph(0, 2*Math.PI,Squared_x, Squared_y);
+ DrawGraph(0, 1,Function_x, Function_y);
 
 //Allow the user to draw
 
@@ -175,6 +175,65 @@ function DrawUser() {
             brush.x = (event.clientX-rect.left)-((event.clientX-rect.left-brush.x)*lazyradi)/dist;
             brush.y = (event.clientY-rect.top)-((event.clientY-rect.top-brush.y)*lazyradi)/dist;
         }
+    }
+    function EuclideanDist(p1, p2) {
+        const xval = (p1.x-p2.x)*(p1.x-p2.x);
+        const yval = (p1.y-p2.y)*(p1.y-p2.y);
+        return Math.sqrt(xval+yval);
+    }
+    function FindError() {
+        function CatRom(a, b, c, d, t){
+            return{x: ((-a.x+3*(b.x)-3*(c.x)+(d.x))*(t*t*t)/2+(a.x-((5*b.x)/(2))+2*c.x-((d.x)/(2)))*(t*t)+((c.x-a.x)/2)*t+(b.x)), y: ((-a.y+3*(b.y)-3*(c.y)+(d.y))*(t*t*t)/2+(a.y-((5*b.y)/(2))+2*c.y-((d.y)/(2)))*(t*t)+((c.y-a.y)/2)*t+(b.y))};
+        }
+        let origin = {x: cw/2, y: ch/2};
+        function Convert(p) {
+            p.x = (p.x-origin.x)/xunit;
+            p.y = (origin.y-p.y)/yunit;
+            return p;
+        }
+        let user = [Convert(mousecoord[0])];
+        let epsilon = 0.005;
+        let dist = 1;
+        let accumulated = 0;
+        let error = 0;
+        for (let i = 1; i+2 < mousecoord.length; i++) {
+            for (let t = 0; t < 1; t += epsilon) {
+                let prev = user[user.length-1];
+                let p = CatRom(mousecoord[i-1], mousecoord[i], mousecoord[i+1], mousecoord[i+2], t);
+                let d = EuclideanDist(prev, p);
+                if (accumulated+d < dist) {
+                    accumulated += d;
+                }
+                else {
+                    user.push(Convert(p));
+                    accumulated = 0;
+                }
+            }
+        }
+        
+        const len = user.length;
+        context.beginPath();
+        context.lineWidth = 2;
+        let delta = 200;
+        context.moveTo(user[0].x+delta, user[0].y);
+        for (let i = 1; i < len; i++) {
+            context.lineTo(user[i].x+delta, user[i].y);
+        }
+        context.stroke();
+        let actual = [];
+        let inc = 1/len;
+        for (let t = 0; t <= 1; t += inc) {
+            let p = {x:Function_x(t), y:Function_y(t)};
+            actual.push(p);
+        }
+        user.sort((p1, p2) => (p1.x - p2.x) || (p1.y - p2.y));
+        actual.sort((p1, p2) => (p1.x - p2.x) || (p1.y - p2.y));
+        for (let i = 0; i < len; i++) {
+            error += Math.exp(EuclideanDist(user[i], actual[i]));
+        }
+        error = Math.log(error); 
+        let Error = document.getElementById("error");
+        Error.innerHTML = "Error: " + error.toString();        
     }
     DrawingPlane.addEventListener('pointerdown',(event) => {
         context.beginPath();
@@ -210,6 +269,7 @@ function DrawUser() {
     });
     DrawingPlane.addEventListener('pointerup', (event) => {
         CurrentlyDrawing = false;
+        FindError();
         mousecoord = [];
     });
 
