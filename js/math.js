@@ -27,3 +27,8 @@ function EuclideanDist(p1, p2) {
     const yval = (p1.y-p2.y)*(p1.y-p2.y);
     return Math.sqrt(xval+yval);
 }
+
+function Round(x, places) {
+    const i = Math.pow(10, places);
+    return Math.round((x+Number.EPSILON)*i)/i;
+}

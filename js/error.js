@@ -91,6 +91,7 @@ function FindError(mousecoord) {
     }
     error /= len;
     error *= 100;
+    error = Round(error, 2);
     let Error = document.getElementById("error");
     Error.innerHTML = "Error: " + error.toString();
 }
